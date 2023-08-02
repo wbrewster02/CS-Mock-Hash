@@ -20,14 +20,19 @@ checkPassword = async (username, plaintextPassword) => {
     // Ensure global store contains the user 
     // (this is a quick way to check if an object contains a key)
     if (globalStore[username]) {
-        // TODO: Use bcrypt's compare methof to compare a plaintext password to a password hash
-
+        // TODO: Use bcrypt's compare method to compare a plaintext password to a password hash
+        
+        let result = await bcrypt.compare(plaintextPassword, globalStore[username])
         // TODO: The result variable is a boolean. True means the user was valid. Take action accordingly.
         if (result) {
             // TODO: Display message for valid credentials
+            
+            console.log(`\n✅ You are now logged in as ${username}!\n`)
         }
         else {
             // TODO: Display message for invalid credentials
+            
+            console.log('\n⛔ Sorry, but your credentials are invalid.\n')
         }
     }
     else {
@@ -41,12 +46,18 @@ hashPassword = async (username, password) => {
     console.log('\nUh-oh, hashPassword is not yet implemented. 😢')
 
     // TODO: Make the password hash using bcrypt
+    
+    let passwordHashed = await bcrypt.hash(password, 12)
 
     // TODO: Add the user and password hash to the global store object
+    globalStore[username] = passwordHashed
+    console.log(globalStore)
 
     // TODO: Print a status update including the username and password hash
+    
+    console.log(`\n✅ User ${username} was created with the password ${passwordHashed}.\n`)
 }
-
+    
 
 
 
